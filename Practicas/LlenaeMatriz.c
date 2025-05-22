@@ -1,5 +1,15 @@
 # include <stdio.h>
 
+void llenar_matriz(int a[][100], int r, int c);
+void imprimir_matriz(int a[][100], int r, int c);
+
+int main(){
+    int a[100][100];
+    llenar_matriz(a,3,3);
+    imprimir_matriz(a,3,3);
+    return 0;
+}
+
 void llenar_matriz(int a[][100], int r, int c){
     for(int i = 0; i < r; i++){
         for(int j = 0; j < c; j++){
@@ -17,9 +27,3 @@ void imprimir_matriz(int a[][100], int r, int c){
     }
 }
 
-int main(){
-    int a[100][100];
-    llenar_matriz(a,3,3);
-    imprimir_matriz(a,3,3);
-    return 0;
-}
