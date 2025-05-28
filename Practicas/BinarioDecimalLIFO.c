@@ -4,10 +4,10 @@
 #include "Lista.h"
 #include "UsaLista.h"
 
-Lista llenarLista(Lista lista){
+Lista llenarListaBinario(Lista lista){
     int c, valor;
+    printf("Ingrese 8 números en binario (0-1):\n");
     int i = 0;
-    printf("Ingrese 8 bits\n");
     while(i < 8){
         c = getchar();
         if (c == '0' || c == '1') {
@@ -15,9 +15,49 @@ Lista llenarLista(Lista lista){
             lista = cons(valor, lista);
             i++;
         }
+        
     }
     return lista;
 }
+
+Lista llenarListaOctal(Lista lista) {
+    int c, valor;
+    printf("Ingrese 3 números en octales (0-7):\n");
+    int i = 0;
+    while (i < 3) {
+        c = getchar();
+        if (c >= '0' && c <= '7') {
+            valor = c - '0';
+            lista = cons(valor, lista);
+            i++;
+        }
+    }
+    return lista;
+}
+
+Lista llenarListaHexadecimal(Lista lista) {
+    int c;
+    printf("Ingrese 4 dígitos hexadecimales (0-9 o A-F):\n");
+    int i = 0;
+    while (i < 4) {
+        c = getchar();
+        if ((c >= '0' && c <= '9') || (c >= 'A' && c <= 'F')) {
+            lista = cons(c, lista);  
+            i++;
+        }
+    }
+    return lista;
+}
+
+
+void imprimirLista(Lista lista) {
+    while (lista != NULL) {
+        printf("%d", cabeza(lista));
+        lista = resto(lista);
+    }
+    printf("\n");
+}
+
 
 void volverDecimal(Lista decimal){
     int multiplicador = 1;
@@ -39,11 +79,7 @@ void convertirDecimalABinario(int n){
         i++;
     }
     printf("El número en binario es: ");
-    while (binario != NULL){
-        printf("%d", cabeza(binario));
-        binario = resto(binario);
-    }
-    printf("\n");
+    imprimirLista(binario);
 }
 
 void convertirDecimalAOctal(int n){
@@ -53,11 +89,7 @@ void convertirDecimalAOctal(int n){
         n /= 8;
     }
     printf("El número en octal es: ");
-    while (octal != NULL){
-        printf("%d", cabeza(octal));
-        octal = resto(octal);
-    }
-    printf("\n");
+    imprimirLista(octal);
 }
 
 void convertirOctalADecimal(Lista octal){
@@ -71,81 +103,50 @@ void convertirOctalADecimal(Lista octal){
     printf("La conversión a decimal desde octal es: %d\n", resultado);
 }
 
-void convertirHexadecimalADecimal(char* hex){
-    int len = strlen(hex);
-    int base = 1;
+void convertirHexADecimal(Lista hexadecimal) {
     int resultado = 0;
-    for(int i = len - 1; i >= 0; i--){
-        if(hex[i] >= '0' && hex[i] <= '9'){
-            resultado += (hex[i] - '0') * base;
-        } else if(hex[i] >= 'A' && hex[i] <= 'F'){
-            resultado += (hex[i] - 'A' + 10) * base;
-        } else if(hex[i] >= 'a' && hex[i] <= 'f'){
-            resultado += (hex[i] - 'a' + 10) * base;
+    int potencia = 0;
+    while (hexadecimal != NULL) {
+        char c = (char)cabeza(hexadecimal);
+        int valor;
+        if (c >= '0' && c <= '9') {
+            valor = c - '0';
+        } else if (c >= 'A' && c <= 'F') {
+            valor = c - 'A' + 10;
+        } else {
+            valor = 0; 
         }
-        base *= 16;
+        resultado += valor * pow(16, potencia);
+        potencia++;
+        hexadecimal = resto(hexadecimal);
     }
-    printf("La conversión a decimal desde hexadecimal es: %d\n", resultado);
+
+    printf("La conversión a decimal de hexadecimaladecimal es: %d\n", resultado);
 }
 
-#include <stdio.h>
-#include <string.h>
-#include <math.h>
-#include "Lista.h"
-#include "UsaLista.h"
-
-// Función para imprimir cualquier lista
-void imprimirLista(Lista lista) {
-    Lista inversa = vacia();
-    while (lista != NULL) {
-        inversa = cons(cabeza(lista), inversa);
-        lista = resto(lista);
-    }
-    while (inversa != NULL) {
-        printf("%d ", cabeza(inversa));
-        inversa = resto(inversa);
-    }
-    printf("\n");
-}
 
 int main() {
     Lista binaria = vacia();
-    printf("=== Conversión de binario a decimal ===\n");
-    binaria = llenarLista(binaria);
-    printf("Bits ingresados: ");
-    imprimirLista(binaria);
+    printf("Conversión de binario a decimal: \n");
+    binaria = llenarListaBinario(binaria);
     volverDecimal(binaria);
 
-    printf("\n=== Conversión de decimal a binario y octal ===\n");
-    int numero;
+    printf("\nConversión de decimal a binario y octal: \n");
+    int numero = 0;
     printf("Ingrese un número decimal: ");
     scanf("%d", &numero);
     convertirDecimalABinario(numero);
     convertirDecimalAOctal(numero);
 
-    printf("\n=== Conversión de octal a decimal ===\n");
+    printf("\nConversión de octal a decimal: \n");
     Lista octal = vacia();
-    int digito;
-    printf("Ingrese 3 dígitos octales:\n");
-    for (int i = 0; i < 3; i++) {
-        printf("Dígito %d (0-7): ", i + 1);
-        scanf("%d", &digito);
-        if (digito >= 0 && digito <= 7) {
-            octal = cons(digito, octal);
-        } else {
-            printf("Valor inválido, debe ser entre 0 y 7.\n");
-            i--; // repetir este índice
-        }
-    }
-    printf("Octal ingresado: ");
-    imprimirLista(octal);
+    octal = llenarListaOctal(octal);
     convertirOctalADecimal(octal);
 
-    printf("\n=== Conversión de hexadecimal a decimal ===\n");
-    char hex[10];
-    printf("Ingrese un número hexadecimal (sin 0x): ");
-    scanf("%s", hex);
-    convertirHexadecimalADecimal(hex);
+    printf("\nConversión de hexadecimal a decimal: \n");
+    Lista hexadecimal = vacia();
+    hexadecimal = llenarListaHexadecimal(hexadecimal);
+    convertirHexADecimal(hexadecimal);
 
     return 0;
 }
