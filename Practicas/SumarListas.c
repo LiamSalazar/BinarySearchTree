@@ -40,8 +40,6 @@ Lista sumarListas(Lista a, Lista b) {
     else
         a = rellenarLista(a, sizeB - sizeA);
 
-    imprimirLista(a);
-    imprimirLista(b);
     while (!esvacia(a)) {
         int suma = cabeza(a) + cabeza(b) + acarreo;
         resultado = cons(suma % 10, resultado);
