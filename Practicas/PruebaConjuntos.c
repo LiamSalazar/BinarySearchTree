@@ -36,6 +36,9 @@ int main(){
     puts("");
     puts("");
     printf("Cardinalidad del conjunto 1: %d\n", cardinalidad);
+    puts("");
+    printf("Cardinalidad: %d\n", Cardinalidad(Diferencia(Interseccion(c1,c2),Union(c1,c2))));
+    puts("");
 
     return 0;
 }
