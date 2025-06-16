@@ -1,4 +1,6 @@
 # include ".\HeapTree.h"
+# include ".\ElemInt.h"
+# pragma once
 
 int altura(Heap a){
     if(a == NULL)
@@ -21,6 +23,7 @@ void imprimirInOrder(Heap a) {
 
 void imprimirNivel(Heap a, int nivel) {
     if (a == NULL){
+        printf("n\t");
         return;
     } 
     if (nivel == 1) {

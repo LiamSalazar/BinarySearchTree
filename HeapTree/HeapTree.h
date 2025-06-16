@@ -1,5 +1,6 @@
 # include ".\ArBin.h"
 # include ".\ElemInt.h"
+# pragma once
 
 typedef ArBin Heap;
 

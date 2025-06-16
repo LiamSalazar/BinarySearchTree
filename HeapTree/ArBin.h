@@ -1,5 +1,6 @@
 # include ".\ElemInt.h"
 # include <stdlib.h>
+# pragma once
 
 typedef struct Nodo{
       struct Nodo *i;
