@@ -18,7 +18,7 @@ Heap intercambiaRaiz(Heap h, Heap hijoMayor) {
     }
 }
 
-Heap hacerHeap(Heap h) {
+Heap hazHeap(Heap h) {
     if (esvacioAB(h)) return h;
 
     Heap hi = izqAB(h);
@@ -32,7 +32,7 @@ Heap hacerHeap(Heap h) {
 
     if (mayor != h) {
         h = intercambiaRaiz(h, mayor);
-        h = consAB(raiz(h), hacerHeap(izqAB(h)), hacerHeap(derAB(h)));
+        h = consAB(raiz(h), hazHeap(izqAB(h)), hazHeap(derAB(h)));
     }
 
     return h;
@@ -52,5 +52,5 @@ Heap consHeap(Heap h, Elem e) {
         nuevo = consAB(raiz(h), izqAB(h), consHeap(derAB(h), e));
     }
 
-    return hacerHeap(nuevo);
+    return hazHeap(nuevo);
 }
